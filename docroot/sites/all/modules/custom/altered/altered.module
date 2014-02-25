@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * Implements hook_node_load().
+ */
+function altered_node_load($nodes, $types) {
+  foreach ($nodes as $node) {
+    $node->title .= ' - this has been altered.';
+    $node->custom_info = 'This is our data';
+  }
+}
+
+/**
+ * Implements hook_services_request_postprocess().
+ */
+function altered_services_request_postprocess_alter($controller, $args, &$result) {
+  if (isset($result->nid)) {
+    unset($result->rdf_mapping);
+    // Make body field simpler.
+    $body = $result->body[LANGUAGE_NONE][0]['value'];
+    $result->body = $body;
+  }
+}

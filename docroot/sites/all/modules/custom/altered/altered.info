@@ -1,0 +1,4 @@
+name = Altered
+Description = Demonstrates techniques for altering results returned by services module.
+core = 7.x
+dependencies[] = services

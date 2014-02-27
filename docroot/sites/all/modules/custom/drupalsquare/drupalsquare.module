@@ -1,0 +1,56 @@
+<?php
+/**
+ * @file
+ * DrupalSquare module.
+ */
+
+/**
+ * Implementation of hook_services_resources().
+ */
+function drupalsquare_services_resources() {
+  $resources = array();
+  $resources['drupalsquare'] = array(
+    'operations' => array(
+      'retrieve' => array(
+        'help' => 'Retrieve users checked in status.',
+        'file' => array('type' => 'inc', 'module' => 'drupalsquare', 'name' => 'resources/drupalsquare.resource'),
+        'callback' => '_drupalsquare_resource_retrieve',
+        'args' => array(
+          array(
+            'name' => 'uid',
+            'optional' => FALSE,
+            'source' => array('path' => 0),
+            'type' => 'int',
+            'description' => 'The uid of the user to retrieve status for.',
+          ),
+        ),
+        'access callback' => '_drupalsquare_resource_access',
+      ),
+    ),
+    'actions' => array(
+      'checkin' => array(
+        'help'   => 'Checkin the specified user..',
+        'file' => array('type' => 'inc', 'module' => 'drupalsquare', 'name' => 'resources/drupalsquare.resource'),
+        'callback' => '_drupalsquare_resource_checkin',
+        'access callback' => '_drupalsquare_resource_access',
+        'args' => array(
+          array(
+            'name' => 'uid',
+            'optional' => FALSE,
+            'source' => array('data' => 'uid'),
+            'description' => t('The uid of the user to check in.'),
+            'type' => 'int',
+          ),
+          array(
+            'name' => 'date',
+            'optional' => TRUE,
+            'source' => array('data' => 'date'),
+            'description' => t('The current timestamp for check in or leave blank to default to the current time.'),
+            'type' => 'string',
+          ),
+        ),
+      ),
+    ),
+  );
+  return $resources;
+}

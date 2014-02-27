@@ -1,0 +1,4 @@
+name = DrupalSquare
+description = Custom services resource example
+core = 7.x
+dependencies[] = services
